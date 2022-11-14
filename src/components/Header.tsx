@@ -6,12 +6,16 @@ import menueIcon from '../assets/MenueIcon.png';
 import locationIcon from '../assets/LocationIcon.png';
 import locationIconButton from '../assets/LcationButtonIcon.png';
 
-const Header = () => {
+type Props = {
+	cityName: string | undefined;
+};
+
+const Header = ({ cityName }: Props) => {
 	return (
 		<HeaderContainer>
 			<button>
 				<img src={locationIcon} alt='Chose location' />
-				<p>Legnica</p>
+				<p>{cityName}</p>
 				<img src={locationIconButton} alt='' />
 			</button>
 			<button>
@@ -38,7 +42,6 @@ const HeaderContainer = styled.div`
 		align-items: center;
 		font-size: 16px;
 		font-weight: bold;
-		color: #fff;
 		padding: 10px;
 		cursor: pointer;
 
