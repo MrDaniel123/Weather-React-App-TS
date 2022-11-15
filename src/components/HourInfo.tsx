@@ -2,17 +2,37 @@ import React from 'react';
 import styled from 'styled-components';
 
 import rainIcon from '../assets/MainRainIcon.png';
+import cloudsIcon from '../assets/MainCloudIcon.png';
+import clearIcon from '../assets/MainClearIcon.png';
 import windSpeedIcon from '../assets/WindSmallIcon.png';
 
-const HourInfo = () => {
+interface Props {
+	temperature: number;
+	hour: number;
+	windSpeed: number;
+	weather: string;
+}
+
+const HourInfo = ({ temperature, hour, windSpeed, weather }: Props) => {
+	const date = new Date(hour * 1000);
+	let weatcherIcon = clearIcon;
+
+	if (weather === 'Rain') {
+		weatcherIcon = rainIcon;
+	} else if (weather === 'Clouds') {
+		weatcherIcon = cloudsIcon;
+	} else {
+		weatcherIcon = clearIcon;
+	}
+
 	return (
 		<HourInfoContainer>
-			<HourStyledP>12:00</HourStyledP>
-			<TempStyledP>17°</TempStyledP>
-			<SmallIconImg src={rainIcon} alt='' />
+			<HourStyledP>{date.getHours()}:00</HourStyledP>
+			<TempStyledP>{temperature.toFixed(0)}°C</TempStyledP>
+			<SmallIconImg src={weatcherIcon} alt='' />
 			<WindSpeedContainer>
 				<img src={windSpeedIcon} alt='' />
-				<p>7.5 km/h</p>
+				<p>{windSpeed} km/h</p>
 			</WindSpeedContainer>
 		</HourInfoContainer>
 	);
@@ -24,8 +44,10 @@ const HourInfoContainer = styled.div`
 	row-gap: 4px;
 	justify-items: center;
 	align-items: center;
-	height: 120px;
-	width: 70px;
+	min-height: 120px;
+	max-height: 120px;
+	min-width: 60px;
+	max-width: 60px;
 
 	background: rgba(255, 255, 255, 0.12);
 	border-radius: 8px;

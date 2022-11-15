@@ -5,20 +5,26 @@ import windIcon from '../assets/WindSmallIcon.png';
 import presureIcon from '../assets/PressureSmallIcon.png';
 import tearIcon from '../assets/TearSmallIcon.png';
 
-const OtherStatsInfo = () => {
+interface Props {
+	currentWeatcherData: { wind: { speed: number }; main: { pressure: number; humidity: number } };
+}
+
+const OtherStatsInfo = ({ currentWeatcherData }: Props) => {
+	console.log(currentWeatcherData);
+
 	return (
 		<OtherStatsContainer>
 			<div>
 				<img src={windIcon} alt='Speed wind icon' />
-				<p>19 km/h</p>
+				<p>{currentWeatcherData.wind.speed} km/h</p>
 			</div>
 			<div>
 				<img src={presureIcon} alt='Speed wind icon' />
-				<p>1014 hpa</p>
+				<p>{currentWeatcherData.main.pressure} hpa</p>
 			</div>
 			<div>
 				<img src={tearIcon} alt='Speed wind icon' />
-				<p>54 %</p>
+				<p>{currentWeatcherData.main.humidity} %</p>
 			</div>
 		</OtherStatsContainer>
 	);
@@ -33,6 +39,7 @@ const OtherStatsContainer = styled.div`
 	height: 42px;
 	width: 340px;
 	margin-top: 16px;
+	font-weight: bold;
 
 	& div {
 		display: flex;

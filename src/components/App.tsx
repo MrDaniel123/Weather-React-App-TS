@@ -46,6 +46,8 @@ function App() {
 			});
 	}, []);
 
+	// const dayForcastRender =
+
 	return (
 		//!Delete this brackets
 		<>
@@ -60,9 +62,9 @@ function App() {
 							cityName={weatcherData?.city.name}
 						/>
 						<Foo>
-							<OtherStatsInfo />
+							<OtherStatsInfo currentWeatcherData={weatcherData?.list[0]} />
 							<Line />
-							<HourlyStats />
+							<HourlyStats weatcherInformations={weatcherData?.list} />
 							<Line />
 
 							<DayForcast />

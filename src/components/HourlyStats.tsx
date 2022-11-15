@@ -5,17 +5,35 @@ import HourInfo from './HourInfo';
 
 import ArrowIcon from '../assets/ArrowIcon.png';
 
-const HourlyStats = () => {
+interface Props {
+	weatcherInformations: any;
+}
+
+interface CurrentWeatcherInfo {
+	dt: number;
+	main: { temp: number };
+	wind: { speed: number };
+	weather: [{ main: string }];
+}
+
+const HourlyStats = ({ weatcherInformations }: Props) => {
+	const hourInfoRender = weatcherInformations.map((currentWeatcherInfo: CurrentWeatcherInfo) => {
+		let hour = currentWeatcherInfo.dt;
+		let temp = currentWeatcherInfo.main.temp;
+		let windSpped = currentWeatcherInfo.wind.speed;
+		let weatcher = currentWeatcherInfo.weather;
+		console.log(weatcher[0].main);
+
+		return (
+			<HourInfo temperature={temp} hour={hour} windSpeed={windSpped} weather={weatcher[0].main} />
+		);
+	});
+
 	return (
 		<HourlyStatsContainer>
 			<p>Today</p>
 			<ActualDateP>Mar, 29</ActualDateP>
-			<ScroolBarContainerDiv>
-				<HourInfo />
-				<HourInfo />
-				<HourInfo />
-				<HourInfo />
-			</ScroolBarContainerDiv>
+			<ScroolBarContainerDiv>{hourInfoRender}</ScroolBarContainerDiv>
 			<button>
 				<img src={ArrowIcon} alt='' />
 			</button>
@@ -33,6 +51,7 @@ const HourlyStatsContainer = styled.div`
 
 	width: 340px;
 	height: 180px; //* to delete
+	overflow: hidden;
 
 	& button {
 		all: unset;
@@ -51,8 +70,10 @@ const ActualDateP = styled.p`
 const ScroolBarContainerDiv = styled.div`
 	grid-column: 1/4;
 	grid-row: 2/3;
+
 	display: flex;
 	gap: 16px;
+	width: 340px;
 	overflow: scroll;
 `;
 
