@@ -10,8 +10,6 @@ interface Props {
 }
 
 const OtherStatsInfo = ({ currentWeatcherData }: Props) => {
-	console.log(currentWeatcherData);
-
 	return (
 		<OtherStatsContainer>
 			<div>

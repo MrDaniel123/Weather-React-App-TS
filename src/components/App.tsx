@@ -45,9 +45,24 @@ function App() {
 				setWeatcherData(null);
 			});
 	}, []);
+	let dayArray: number[];
 
-	// const dayForcastRender =
+	const weatherForDays = () => {
+		let dayNumber: number[] = weatcherData?.list.map((element: any) => {
+			let date = new Date(element.dt * 1000);
+			return date.getDay();
+		});
 
+		const wearcherDays = dayNumber.filter((day, pos) => {
+			return dayNumber.indexOf(day) === pos;
+		});
+
+		console.log(wearcherDays);
+	};
+
+	if (dataIsLoading) {
+		weatherForDays();
+	}
 	return (
 		//!Delete this brackets
 		<>

@@ -22,7 +22,6 @@ const HourlyStats = ({ weatcherInformations }: Props) => {
 		let temp = currentWeatcherInfo.main.temp;
 		let windSpped = currentWeatcherInfo.wind.speed;
 		let weatcher = currentWeatcherInfo.weather;
-		console.log(weatcher[0].main);
 
 		return (
 			<HourInfo temperature={temp} hour={hour} windSpeed={windSpped} weather={weatcher[0].main} />
