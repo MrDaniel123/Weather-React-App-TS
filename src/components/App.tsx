@@ -45,7 +45,9 @@ function App() {
 				setWeatcherData(null);
 			});
 	}, []);
-	let dayArray: number[];
+
+	const daysName = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+	const weatherDays: string[] = [];
 
 	const weatherForDays = () => {
 		let dayNumber: number[] = weatcherData?.list.map((element: any) => {
@@ -53,16 +55,25 @@ function App() {
 			return date.getDay();
 		});
 
-		const wearcherDays = dayNumber.filter((day, pos) => {
+		const wearcherDaysNumber = dayNumber.filter((day, pos) => {
 			return dayNumber.indexOf(day) === pos;
 		});
 
-		console.log(wearcherDays);
+		for (let i = 0; i < wearcherDaysNumber.length; i++) {
+			let day = daysName[wearcherDaysNumber[i]];
+
+			weatherDays.push(day);
+		}
+		console.log(weatherDays);
 	};
 
 	if (dataIsLoading) {
 		weatherForDays();
 	}
+
+	const dayForcastRender = weatherDays.map(day => {
+		return <DayForcast weatcherDay={day} />;
+	});
 	return (
 		//!Delete this brackets
 		<>
@@ -82,10 +93,7 @@ function App() {
 							<HourlyStats weatcherInformations={weatcherData?.list} />
 							<Line />
 
-							<DayForcast />
-							<DayForcast />
-							<DayForcast />
-							<DayForcast />
+							{dayForcastRender}
 						</Foo>
 					</AppContainer>
 				</>

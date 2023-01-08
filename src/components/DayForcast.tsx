@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 import rainIcon from '../assets/MainRainIcon.png';
 
-const DayForcast = () => {
+interface Props {
+	day: string;
+}
+
+const DayForcast = ({ day }: Props) => {
 	return (
 		<DayForcastContainer>
 			<DayNameStyledP>Monday</DayNameStyledP>
