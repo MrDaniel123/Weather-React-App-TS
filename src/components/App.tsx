@@ -17,6 +17,12 @@ interface CurrentWeatcherModel {
 	city: { name: string };
 }
 
+interface ForcastDayWeather {
+	dayName: string;
+	minTemperature: number;
+	maxTemperature: number;
+}
+
 const API_KEY = process.env.REACT_APP_WEATCHER_API_KEY;
 
 function App() {
@@ -47,33 +53,81 @@ function App() {
 	}, []);
 
 	const daysName = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-	const weatherDays: string[] = [];
+	const weatherDays: ForcastDayWeather[] = [];
 
 	const weatherForDays = () => {
-		let dayNumber: number[] = weatcherData?.list.map((element: any) => {
-			let date = new Date(element.dt * 1000);
-			return date.getDay();
+		const dayIndex: number[] = [];
+
+		let dayName: string = '';
+		let minTemperature: number = 0;
+		let maxTemperature: number = 0;
+
+		// let dayNumber: number[] = weatcherData?.list.map((element: any) => {
+		// 	let date = new Date(element.dt * 1000);
+		// 	return date.getDay();
+		// });
+
+		// const wearcherDaysNumber = dayNumber.filter((day, pos) => {
+		// 	return dayNumber.indexOf(day) === pos;
+		// });
+
+		// for (let i = 0; i < wearcherDaysNumber.length; i++) {
+		// 	let day = daysName[wearcherDaysNumber[i]];
+		// 	dayName = day;
+		// }
+
+		const daysMonthNumber: number[] = weatcherData?.list.map((weatherStats: any) => {
+			let date = new Date(weatherStats.dt * 1000);
+			return date.getUTCDate();
 		});
 
-		const wearcherDaysNumber = dayNumber.filter((day, pos) => {
-			return dayNumber.indexOf(day) === pos;
+		daysMonthNumber.forEach((day, pos) => {
+			if (daysMonthNumber.indexOf(day) === pos) {
+				dayIndex.push(pos);
+			}
 		});
 
-		for (let i = 0; i < wearcherDaysNumber.length; i++) {
-			let day = daysName[wearcherDaysNumber[i]];
+		dayIndex.forEach(dayIndex => {
+			minTemperature = weatcherData?.list[dayIndex].main.temp_min;
+			maxTemperature = weatcherData?.list[dayIndex].main.temp_max;
 
-			weatherDays.push(day);
-		}
+			let weatherTime = weatcherData?.list[dayIndex].dt;
+			let dateObj = new Date(weatherTime);
+			let dayNumber = dateObj.getDay();
+			let day = daysName[dayNumber];
+
+			const dayObj: ForcastDayWeather = {
+				dayName: day,
+				minTemperature: minTemperature,
+				maxTemperature: maxTemperature,
+			};
+
+			weatherDays.push(dayObj);
+		});
+
 		console.log(weatherDays);
 	};
 
+	// const temperatureFilter = (numberOfActualListSearch: number) => {
+	// 	const minTemperature: number[] = [];
+
+	// 	if (numberOfActualListSearch === 0) {
+	// 		for (let i = 0; i === numberOfActualListSearch; i++) {
+	// 			minTemperature.push(weatcherData?.list[i].main.temp_min);
+	// 		}
+	// 	}
+
+	// 	console.log(minTemperature);
+	// };
+
 	if (dataIsLoading) {
 		weatherForDays();
+		// console.log(weatcherData);
 	}
 
-	const dayForcastRender = weatherDays.map(day => {
-		return <DayForcast weatcherDay={day} />;
-	});
+	// const dayForcastRender = weatherDays.dayName.map(day => {
+	// 	return <DayForcast weatcherDay={day} key={day} />;
+	// });
 	return (
 		//!Delete this brackets
 		<>
@@ -93,7 +147,7 @@ function App() {
 							<HourlyStats weatcherInformations={weatcherData?.list} />
 							<Line />
 
-							{dayForcastRender}
+							{/* {dayForcastRender} */}
 						</Foo>
 					</AppContainer>
 				</>

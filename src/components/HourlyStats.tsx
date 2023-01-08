@@ -24,6 +24,7 @@ const HourlyStats = ({ weatcherInformations }: Props) => {
 		let weatcher = currentWeatcherInfo.weather;
 
 		return (
+			//ToDo Add KEY props To HourInfo Component
 			<HourInfo temperature={temp} hour={hour} windSpeed={windSpped} weather={weatcher[0].main} />
 		);
 	});
