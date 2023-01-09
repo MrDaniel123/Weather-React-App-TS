@@ -108,7 +108,17 @@ function App() {
 				return maxTemp;
 			});
 
+			let dayName = oneDayWeather.map((oneHourWeather: any) => {
+				let time = oneHourWeather.dt;
+				let date = new Date(time * 1000);
+				let dayNumber = date.getDay();
+				// console.log(dayNumber);
+
+				return daysName[dayNumber];
+			});
+
 			let weatherOneDayObj = {
+				day: dayName[0],
 				minTemp: Math.min(...oneDayMinTemperature),
 				maxTemp: Math.max(...oneDayMaxTemperature),
 			};
@@ -117,18 +127,6 @@ function App() {
 
 		console.log(weatherForDay);
 	};
-
-	// const temperatureFilter = (numberOfActualListSearch: number) => {
-	// 	const minTemperature: number[] = [];
-
-	// 	if (numberOfActualListSearch === 0) {
-	// 		for (let i = 0; i === numberOfActualListSearch; i++) {
-	// 			minTemperature.push(weatcherData?.list[i].main.temp_min);
-	// 		}
-	// 	}
-
-	// 	console.log(minTemperature);
-	// };
 
 	if (dataIsLoading) {
 		weatherForDays();
