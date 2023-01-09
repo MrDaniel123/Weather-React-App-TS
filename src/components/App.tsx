@@ -23,6 +23,22 @@ interface ForcastDayWeather {
 	maxTemperature: number;
 }
 
+interface WeatherData {
+	clouds: any;
+	dt: number;
+	dt_text: string;
+	main: any;
+	pop: number;
+	sys: any;
+	visibility: number;
+	weather: any;
+	wind: {
+		deg: number;
+		gust: number;
+		speed: number;
+	};
+}
+
 const API_KEY = process.env.REACT_APP_WEATCHER_API_KEY;
 
 function App() {
@@ -57,24 +73,8 @@ function App() {
 
 	const weatherForDays = () => {
 		const dayIndex: number[] = [];
-
-		let dayName: string = '';
-		let minTemperature: number = 0;
-		let maxTemperature: number = 0;
-
-		// let dayNumber: number[] = weatcherData?.list.map((element: any) => {
-		// 	let date = new Date(element.dt * 1000);
-		// 	return date.getDay();
-		// });
-
-		// const wearcherDaysNumber = dayNumber.filter((day, pos) => {
-		// 	return dayNumber.indexOf(day) === pos;
-		// });
-
-		// for (let i = 0; i < wearcherDaysNumber.length; i++) {
-		// 	let day = daysName[wearcherDaysNumber[i]];
-		// 	dayName = day;
-		// }
+		let weatherDataForDays: any = []; //THis is weatcher for days One element is one day
+		let counter = 0;
 
 		const daysMonthNumber: number[] = weatcherData?.list.map((weatherStats: any) => {
 			let date = new Date(weatherStats.dt * 1000);
@@ -87,25 +87,35 @@ function App() {
 			}
 		});
 
-		dayIndex.forEach(dayIndex => {
-			minTemperature = weatcherData?.list[dayIndex].main.temp_min;
-			maxTemperature = weatcherData?.list[dayIndex].main.temp_max;
-
-			let weatherTime = weatcherData?.list[dayIndex].dt;
-			let dateObj = new Date(weatherTime);
-			let dayNumber = dateObj.getDay();
-			let day = daysName[dayNumber];
-
-			const dayObj: ForcastDayWeather = {
-				dayName: day,
-				minTemperature: minTemperature,
-				maxTemperature: maxTemperature,
-			};
-
-			weatherDays.push(dayObj);
+		dayIndex.forEach(index => {
+			if (index !== 0) {
+				let weatherData = weatcherData?.list.slice(counter, index);
+				counter = index;
+				weatherDataForDays.push(weatherData);
+			}
 		});
 
-		console.log(weatherDays);
+		///____________________________
+
+		let weatherForDay = weatherDataForDays.map((oneDayWeather: any) => {
+			let oneDayMinTemperature = oneDayWeather.map((oneHourWeather: any) => {
+				let minTemp = oneHourWeather.main.temp_min;
+				return minTemp;
+			});
+
+			let oneDayMaxTemperature = oneDayWeather.map((oneHourWeather: any) => {
+				let maxTemp = oneHourWeather.main.temp_max;
+				return maxTemp;
+			});
+
+			let weatherOneDayObj = {
+				minTemp: Math.min(...oneDayMinTemperature),
+				maxTemp: Math.max(...oneDayMaxTemperature),
+			};
+			return weatherOneDayObj;
+		});
+
+		console.log(weatherForDay);
 	};
 
 	// const temperatureFilter = (numberOfActualListSearch: number) => {
