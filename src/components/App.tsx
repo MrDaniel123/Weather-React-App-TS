@@ -23,6 +23,12 @@ interface ForcastDayWeather {
 	maxTemperature: number;
 }
 
+interface DayStats {
+	day: string;
+	minTemp: number;
+	maxTemp: number;
+}
+
 interface WeatherData {
 	clouds: any;
 	dt: number;
@@ -45,6 +51,7 @@ function App() {
 	const [dataIsLoading, setDataIsLoading] = useState(false);
 	const [weatcherData, setWeatcherData] = useState<CurrentWeatcherModel | null>();
 	const [fetchError, setFetchError] = useState(false);
+	const [dataStats, setDataStats] = useState<DayStats[]>([]);
 
 	useEffect(() => {
 		fetch(
@@ -69,7 +76,6 @@ function App() {
 	}, []);
 
 	const daysName = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-	const weatherDays: ForcastDayWeather[] = [];
 
 	const weatherForDays = () => {
 		const dayIndex: number[] = [];
@@ -125,17 +131,22 @@ function App() {
 			return weatherOneDayObj;
 		});
 
-		console.log(weatherForDay);
+		setDataStats(weatherForDay);
 	};
 
 	if (dataIsLoading) {
-		weatherForDays();
-		// console.log(weatcherData);
+		if (dataStats.length === 0) {
+			weatherForDays();
+		}
 	}
 
-	// const dayForcastRender = weatherDays.dayName.map(day => {
-	// 	return <DayForcast weatcherDay={day} key={day} />;
-	// });
+	//! Error is here
+	const dayForcastRender = dataStats.map((day: DayStats) => {
+		console.log(day);
+
+		return <DayForcast {...day} />;
+	});
+
 	return (
 		//!Delete this brackets
 		<>
@@ -154,8 +165,7 @@ function App() {
 							<Line />
 							<HourlyStats weatcherInformations={weatcherData?.list} />
 							<Line />
-
-							{/* {dayForcastRender} */}
+							{dayForcastRender}
 						</Foo>
 					</AppContainer>
 				</>

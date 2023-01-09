@@ -4,16 +4,18 @@ import styled from 'styled-components';
 import rainIcon from '../assets/MainRainIcon.png';
 
 interface Props {
-	weatcherDay: string;
+	day: string;
+	minTemp: number;
+	maxTemp: number;
 }
 
-const DayForcast = ({ weatcherDay }: Props) => {
+const DayForcast = ({ day, minTemp, maxTemp }: Props) => {
 	return (
 		<DayForcastContainer>
-			<DayNameStyledP>{weatcherDay}</DayNameStyledP>
+			<DayNameStyledP>{day}</DayNameStyledP>
 			<IconStyledImg src={rainIcon} alt='' />
-			<MinTempStyledP>7°C</MinTempStyledP>
-			<MaxTempStyledP>17°C</MaxTempStyledP>
+			<MinTempStyledP>{minTemp}°C</MinTempStyledP>
+			<MaxTempStyledP>{maxTemp}°C</MaxTempStyledP>
 		</DayForcastContainer>
 	);
 };
