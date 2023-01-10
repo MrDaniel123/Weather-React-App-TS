@@ -40,8 +40,8 @@ const MainWeatcherInfo = ({ weatcherInformations, cityName }: Props) => {
 		<MainWeatcherInfoContainer>
 			<ActualTemperatureP>{weatcherInformations[0].main.temp.toFixed(0)}°C</ActualTemperatureP>
 			<ActualCityNameP>{cityName}</ActualCityNameP>
-			<MaxTemperatureP>Max: {maxTemperatureGenerator()}°C</MaxTemperatureP>
-			<MinTemperatureP>Min: {minTemperatureGenerator()}°C</MinTemperatureP>
+			<MaxTemperatureP>Max: {Math.round(maxTemperatureGenerator())}°C</MaxTemperatureP>
+			<MinTemperatureP>Min: {Math.round(minTemperatureGenerator())}°C</MinTemperatureP>
 		</MainWeatcherInfoContainer>
 	);
 };

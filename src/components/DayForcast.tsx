@@ -14,8 +14,8 @@ const DayForcast = ({ day, minTemp, maxTemp }: Props) => {
 		<DayForcastContainer>
 			<DayNameStyledP>{day}</DayNameStyledP>
 			<IconStyledImg src={rainIcon} alt='' />
-			<MinTempStyledP>{minTemp}°C</MinTempStyledP>
-			<MaxTempStyledP>{maxTemp}°C</MaxTempStyledP>
+			<MinTempStyledP>{Math.round(minTemp)}°C</MinTempStyledP>
+			<MaxTempStyledP>{Math.round(maxTemp)}°C</MaxTempStyledP>
 		</DayForcastContainer>
 	);
 };
