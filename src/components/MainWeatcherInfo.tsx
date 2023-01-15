@@ -7,7 +7,7 @@ interface Props {
 	cityName: string | undefined;
 }
 
-const MainWeatcherInfo = ({ weatcherInformations, cityName }: Props) => {
+const MainWeatcherInfo = ({ weatcherInformations, cityName }: any) => {
 	const minTemperatureGenerator = () => {
 		let minTemperaturesPerDay = [];
 

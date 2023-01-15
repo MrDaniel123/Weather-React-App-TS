@@ -10,17 +10,11 @@ import HourlyStats from './HourlyStats';
 import DayForcast from './DayForcast';
 
 import { GlobalStyle } from '../utils/GlobalCss';
+import { type } from '@testing-library/user-event/dist/type';
 
 interface CurrentWeatcherModel {
-	// list: [{ main: { temp: number; temp_min: number; temp_max: number } }];
 	list: any;
 	city: { name: string };
-}
-
-interface ForcastDayWeather {
-	dayName: string;
-	minTemperature: number;
-	maxTemperature: number;
 }
 
 interface DayStats {
@@ -29,27 +23,84 @@ interface DayStats {
 	maxTemp: number;
 }
 
-interface WeatherData {
-	clouds: any;
-	dt: number;
-	dt_text: string;
-	main: any;
-	pop: number;
-	sys: any;
-	visibility: number;
-	weather: any;
-	wind: {
-		deg: number;
-		gust: number;
-		speed: number;
+interface Main {
+	temp: number;
+	temp_min: number;
+	temp_max: number;
+	humidity: number;
+	pressure: number;
+}
+
+// interface ApiResponse {
+// 	list: [
+// 		{
+// 			main: Main;
+// 			wind: { speed: number };
+
+// 			dt_text: string;
+// 		}[]
+// 	];
+// 	city: {
+// 		name: string;
+// 	};
+// }
+
+interface Name {
+	name: string;
+}
+
+interface ApiResponse {
+	list: any;
+	city: {
+		name: Name;
 	};
 }
+
+type forecastType = {
+	name: string;
+	country: string;
+	list: [
+		{
+			dt: number;
+			main: {
+				feels_like: number;
+				humidity: number;
+				pressure: number;
+				temp: number;
+				temp_max: number;
+				temp_min: number;
+			};
+			weather: [
+				{
+					main: string;
+					icon: string;
+					description: string;
+				}
+			];
+			wind: {
+				speed: number;
+				gust: number;
+				deg: number;
+			};
+			clouds: {
+				all: number;
+			};
+			pop: number;
+			visibility: number;
+		}
+	];
+	sunrise: number;
+	sunset: number;
+	city: {
+		name: string;
+	};
+};
 
 const API_KEY = process.env.REACT_APP_WEATCHER_API_KEY;
 
 function App() {
 	const [dataIsLoading, setDataIsLoading] = useState(false);
-	const [weatcherData, setWeatcherData] = useState<CurrentWeatcherModel | null>();
+	const [weatcherData, setWeatcherData] = useState<forecastType | null>(null);
 	const [fetchError, setFetchError] = useState(false);
 	const [dataStats, setDataStats] = useState<DayStats[]>([]);
 
@@ -82,12 +133,12 @@ function App() {
 		let weatherDataForDays: any = []; //THis is weatcher for days One element is one day
 		let counter = 0;
 
-		const daysMonthNumber: number[] = weatcherData?.list.map((weatherStats: any) => {
+		const daysMonthNumber: any = weatcherData?.list.map((weatherStats: any) => {
 			let date = new Date(weatherStats.dt * 1000);
 			return date.getUTCDate();
 		});
 
-		daysMonthNumber.forEach((day, pos) => {
+		daysMonthNumber.forEach((day: any, pos: any) => {
 			if (daysMonthNumber.indexOf(day) === pos) {
 				dayIndex.push(pos);
 			}
@@ -140,10 +191,7 @@ function App() {
 		}
 	}
 
-	//! Error is here
 	const dayForcastRender = dataStats.map((day: DayStats) => {
-		console.log(day);
-
 		return <DayForcast {...day} />;
 	});
 

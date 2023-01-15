@@ -9,7 +9,7 @@ interface Props {
 	currentWeatcherData: { wind: { speed: number }; main: { pressure: number; humidity: number } };
 }
 
-const OtherStatsInfo = ({ currentWeatcherData }: Props) => {
+const OtherStatsInfo = ({ currentWeatcherData }: any) => {
 	return (
 		<OtherStatsContainer>
 			<div>
