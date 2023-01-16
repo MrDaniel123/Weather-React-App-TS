@@ -10,6 +10,7 @@ import MainWeatcherInfo from './MainWeatcherInfo';
 import OtherStatsInfo from './OtherStatsInfo';
 import HourlyStats from './HourlyStats';
 import DayForcast from './DayForcast';
+import LoadingData from './LoadingData';
 
 import { DayForcastType } from '../types/index';
 
@@ -90,28 +91,29 @@ function App() {
 
 	return (
 		//!Delete this brackets
-		<>
-			{dataIsLoading && (
+		<AppContainer>
+			{dataIsLoading ? (
 				<>
 					<GlobalStyle />
-					<AppContainer>
-						<Header cityName={weatcherData.city.name} />
-						<MainWeatcherIcon />
-						<MainWeatcherInfo
-							weatcherInformations={weatcherData.list}
-							cityName={weatcherData.city.name}
-						/>
-						<Foo>
-							<OtherStatsInfo currentWeatcherData={weatcherData.list[0]} />
-							<Line />
-							<HourlyStats weatcherInformations={weatcherData.list} />
-							<Line />
-							{dayForcastRender}
-						</Foo>
-					</AppContainer>
+
+					<Header cityName={weatcherData.city.name} />
+					<MainWeatcherIcon />
+					<MainWeatcherInfo
+						weatcherInformations={weatcherData.list}
+						cityName={weatcherData.city.name}
+					/>
+					<Foo>
+						<OtherStatsInfo currentWeatcherData={weatcherData.list[0]} />
+						<Line />
+						<HourlyStats weatcherInformations={weatcherData.list} />
+						<Line />
+						{dayForcastRender}
+					</Foo>
 				</>
+			) : (
+				<LoadingData />
 			)}
-		</>
+		</AppContainer>
 	);
 }
 
