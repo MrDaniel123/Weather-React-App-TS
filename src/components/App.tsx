@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
+
+import useWeather from '../hooks/useWeather';
 
 import Header from './Header';
 import MainWeatcherIcon from './MainWeatcherIcon';
@@ -9,40 +11,13 @@ import OtherStatsInfo from './OtherStatsInfo';
 import HourlyStats from './HourlyStats';
 import DayForcast from './DayForcast';
 
-import { CurrencyWeather, emptyCurrencyWeather, DayForcastType } from '../types/index';
+import { DayForcastType } from '../types/index';
 
 import { GlobalStyle } from '../utils/GlobalCss';
-import { type } from '@testing-library/user-event/dist/type';
-
-const API_KEY = process.env.REACT_APP_WEATCHER_API_KEY;
 
 function App() {
-	const [dataIsLoading, setDataIsLoading] = useState(false);
-	const [weatcherData, setWeatcherData] = useState<CurrencyWeather>(emptyCurrencyWeather);
-	const [fetchError, setFetchError] = useState(false);
 	const [dataStats, setDataStats] = useState<DayForcastType[]>([]);
-
-	useEffect(() => {
-		fetch(
-			`https://api.openweathermap.org/data/2.5/forecast?q=legnica&appid=${API_KEY}&units=metric`
-		)
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(`This is an HTTP error: The status is ${response.status}`);
-				}
-				setFetchError(false);
-
-				return response.json();
-			})
-			.then(data => {
-				setDataIsLoading(true);
-				setWeatcherData(data);
-			})
-			.catch(err => {
-				setFetchError(err.message);
-				setWeatcherData(emptyCurrencyWeather);
-			});
-	}, []);
+	const { dataIsLoading, weatcherData } = useWeather('legnica');
 
 	const daysName = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
