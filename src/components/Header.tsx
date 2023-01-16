@@ -7,7 +7,7 @@ import locationIcon from '../assets/LocationIcon.png';
 import locationIconButton from '../assets/LcationButtonIcon.png';
 
 type Props = {
-	cityName: string | undefined;
+	cityName: string;
 };
 
 const Header = ({ cityName }: Props) => {

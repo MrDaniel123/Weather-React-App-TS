@@ -1,15 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { WeatherList } from '../types';
+
 import windIcon from '../assets/WindSmallIcon.png';
 import presureIcon from '../assets/PressureSmallIcon.png';
 import tearIcon from '../assets/TearSmallIcon.png';
 
 interface Props {
-	currentWeatcherData: { wind: { speed: number }; main: { pressure: number; humidity: number } };
+	currentWeatcherData: WeatherList;
 }
 
-const OtherStatsInfo = ({ currentWeatcherData }: any) => {
+const OtherStatsInfo = ({ currentWeatcherData }: Props) => {
 	return (
 		<OtherStatsContainer>
 			<div>

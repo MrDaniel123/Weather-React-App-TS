@@ -2,14 +2,16 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import { WeatherList } from '../types/index';
+
 interface Props {
-	weatcherInformations: [{ main: { temp: number; temp_min: number; temp_max: number } }];
-	cityName: string | undefined;
+	weatcherInformations: WeatherList[];
+	cityName: string;
 }
 
-const MainWeatcherInfo = ({ weatcherInformations, cityName }: any) => {
+const MainWeatcherInfo = ({ weatcherInformations, cityName }: Props) => {
 	const minTemperatureGenerator = () => {
-		let minTemperaturesPerDay = [];
+		let minTemperaturesPerDay: number[] = [];
 
 		for (let i = 0; i < 10; i++) {
 			minTemperaturesPerDay.push(Number(weatcherInformations[i].main.temp_min));
@@ -22,7 +24,7 @@ const MainWeatcherInfo = ({ weatcherInformations, cityName }: any) => {
 	};
 
 	const maxTemperatureGenerator = () => {
-		let maxTemperaturesPerDay = [];
+		let maxTemperaturesPerDay: number[] = [];
 
 		for (let i = 0; i < 10; i++) {
 			maxTemperaturesPerDay.push(Number(weatcherInformations[i].main.temp_max));

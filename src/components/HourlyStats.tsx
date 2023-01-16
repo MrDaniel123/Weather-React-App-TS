@@ -2,22 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 import HourInfo from './HourInfo';
+import { WeatherList } from '../types';
 
 import ArrowIcon from '../assets/ArrowIcon.png';
 
 interface Props {
-	weatcherInformations: any;
-}
-
-interface CurrentWeatcherInfo {
-	dt: number;
-	main: { temp: number };
-	wind: { speed: number };
-	weather: [{ main: string }];
+	weatcherInformations: WeatherList[];
 }
 
 const HourlyStats = ({ weatcherInformations }: Props) => {
-	const hourInfoRender = weatcherInformations.map((currentWeatcherInfo: CurrentWeatcherInfo) => {
+	const hourInfoRender = weatcherInformations.map((currentWeatcherInfo: WeatherList) => {
 		let hour = currentWeatcherInfo.dt;
 		let temp = currentWeatcherInfo.main.temp;
 		let windSpped = currentWeatcherInfo.wind.speed;

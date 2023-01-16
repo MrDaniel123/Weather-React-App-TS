@@ -9,100 +9,18 @@ import OtherStatsInfo from './OtherStatsInfo';
 import HourlyStats from './HourlyStats';
 import DayForcast from './DayForcast';
 
+import { CurrencyWeather, emptyCurrencyWeather, DayForcastType } from '../types/index';
+
 import { GlobalStyle } from '../utils/GlobalCss';
 import { type } from '@testing-library/user-event/dist/type';
-
-interface CurrentWeatcherModel {
-	list: any;
-	city: { name: string };
-}
-
-interface DayStats {
-	day: string;
-	minTemp: number;
-	maxTemp: number;
-}
-
-interface Main {
-	temp: number;
-	temp_min: number;
-	temp_max: number;
-	humidity: number;
-	pressure: number;
-}
-
-// interface ApiResponse {
-// 	list: [
-// 		{
-// 			main: Main;
-// 			wind: { speed: number };
-
-// 			dt_text: string;
-// 		}[]
-// 	];
-// 	city: {
-// 		name: string;
-// 	};
-// }
-
-interface Name {
-	name: string;
-}
-
-interface ApiResponse {
-	list: any;
-	city: {
-		name: Name;
-	};
-}
-
-type forecastType = {
-	name: string;
-	country: string;
-	list: [
-		{
-			dt: number;
-			main: {
-				feels_like: number;
-				humidity: number;
-				pressure: number;
-				temp: number;
-				temp_max: number;
-				temp_min: number;
-			};
-			weather: [
-				{
-					main: string;
-					icon: string;
-					description: string;
-				}
-			];
-			wind: {
-				speed: number;
-				gust: number;
-				deg: number;
-			};
-			clouds: {
-				all: number;
-			};
-			pop: number;
-			visibility: number;
-		}
-	];
-	sunrise: number;
-	sunset: number;
-	city: {
-		name: string;
-	};
-};
 
 const API_KEY = process.env.REACT_APP_WEATCHER_API_KEY;
 
 function App() {
 	const [dataIsLoading, setDataIsLoading] = useState(false);
-	const [weatcherData, setWeatcherData] = useState<forecastType | null>(null);
+	const [weatcherData, setWeatcherData] = useState<CurrencyWeather>(emptyCurrencyWeather);
 	const [fetchError, setFetchError] = useState(false);
-	const [dataStats, setDataStats] = useState<DayStats[]>([]);
+	const [dataStats, setDataStats] = useState<DayForcastType[]>([]);
 
 	useEffect(() => {
 		fetch(
@@ -122,7 +40,7 @@ function App() {
 			})
 			.catch(err => {
 				setFetchError(err.message);
-				setWeatcherData(null);
+				setWeatcherData(emptyCurrencyWeather);
 			});
 	}, []);
 
@@ -191,7 +109,7 @@ function App() {
 		}
 	}
 
-	const dayForcastRender = dataStats.map((day: DayStats) => {
+	const dayForcastRender = dataStats.map((day: DayForcastType) => {
 		return <DayForcast {...day} />;
 	});
 
@@ -202,16 +120,16 @@ function App() {
 				<>
 					<GlobalStyle />
 					<AppContainer>
-						<Header cityName={weatcherData?.city.name} />
+						<Header cityName={weatcherData.city.name} />
 						<MainWeatcherIcon />
 						<MainWeatcherInfo
-							weatcherInformations={weatcherData?.list}
-							cityName={weatcherData?.city.name}
+							weatcherInformations={weatcherData.list}
+							cityName={weatcherData.city.name}
 						/>
 						<Foo>
-							<OtherStatsInfo currentWeatcherData={weatcherData?.list[0]} />
+							<OtherStatsInfo currentWeatcherData={weatcherData.list[0]} />
 							<Line />
-							<HourlyStats weatcherInformations={weatcherData?.list} />
+							<HourlyStats weatcherInformations={weatcherData.list} />
 							<Line />
 							{dayForcastRender}
 						</Foo>
